@@ -1,0 +1,18 @@
+name: Scheduler
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+
+jobs:
+  run-scheduler:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call scheduler
+        run: |
+          curl -fsS -X POST "$SCHEDULER_URL" \
+            -H "x-scheduler-secret: $SCHEDULER_SECRET"
+        env:
+          SCHEDULER_URL: ${{ secrets.SCHEDULER_URL }}
+          SCHEDULER_SECRET: ${{ secrets.SCHEDULER_SECRET }}
