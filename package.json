@@ -16,6 +16,7 @@
     "sms:test": "tsx src/cli/send-test-sms.ts",
     "setup:local": "tsx src/cli/setup-local.ts",
     "monday:ensure": "tsx src/cli/ensure-monday-board.ts",
+    "scheduler:remote": "tsx src/cli/run-remote-scheduler.ts",
     "cutover:verify": "npm run check && npm run build && npm test && npm audit --omit=dev && npm run config:check && npm run monday:check"
   },
   "dependencies": {
