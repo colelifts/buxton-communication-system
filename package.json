@@ -1,0 +1,35 @@
+{
+  "name": "buxton-communication-system",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Automated customer communication system for Buxton Blinds using Monday.com and SMS providers.",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc -p tsconfig.build.json",
+    "check": "tsc --noEmit",
+    "test": "vitest run",
+    "scheduler:once": "tsx src/run-scheduler.ts",
+    "config:check": "tsx src/cli/check-config.ts",
+    "monday:check": "tsx src/cli/check-monday.ts",
+    "sms:test": "tsx src/cli/send-test-sms.ts",
+    "setup:local": "tsx src/cli/setup-local.ts",
+    "monday:ensure": "tsx src/cli/ensure-monday-board.ts",
+    "cutover:verify": "npm run check && npm run build && npm test && npm audit --omit=dev && npm run config:check && npm run monday:check"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.2.0",
+    "twilio": "^5.4.3",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

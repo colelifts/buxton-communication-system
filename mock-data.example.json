@@ -1,0 +1,24 @@
+[
+  {
+    "id": "mock-1",
+    "name": "Jane Sample",
+    "customerName": "Jane",
+    "phone": "+15555550100",
+    "stage": "New Lead",
+    "automationPaused": false,
+    "stopAutomation": false,
+    "fields": {}
+  },
+  {
+    "id": "mock-2",
+    "name": "Sam Quote",
+    "customerName": "Sam",
+    "phone": "+15555550101",
+    "stage": "Quote Sent",
+    "automationPaused": false,
+    "stopAutomation": false,
+    "quoteSentAt": "2026-06-28T16:00:00.000Z",
+    "quoteFollowupStep": 0,
+    "fields": {}
+  }
+]

@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: buxton-communication-system
+    env: docker
+    plan: starter
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: TEST_MODE
+        value: "true"
+      - key: MOCK_BOARD_MODE
+        value: "true"
