@@ -15,6 +15,7 @@
     "monday:check": "tsx src/cli/check-monday.ts",
     "sms:test": "tsx src/cli/send-test-sms.ts",
     "email:test": "tsx src/cli/send-test-email.ts",
+    "resend:check": "tsx src/cli/check-resend.ts",
     "setup:local": "tsx src/cli/setup-local.ts",
     "monday:ensure": "tsx src/cli/ensure-monday-board.ts",
     "scheduler:remote": "tsx src/cli/run-remote-scheduler.ts",
