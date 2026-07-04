@@ -31,11 +31,12 @@ const envSchema = z.object({
   GOOGLE_REVIEW_URL: z.string().default("https://g.page/r/your-review-link"),
   BUXTON_OFFICE_PHONE: z.string().optional(),
   EMAIL_ENABLED: boolFromString.default("false"),
-  EMAIL_PROVIDER: z.enum(["mock", "resend", "smtp"]).default("mock"),
+  EMAIL_PROVIDER: z.enum(["mock", "resend", "brevo", "smtp"]).default("mock"),
   EMAIL_FROM_ADDRESS: z.string().optional(),
   EMAIL_FROM_NAME: z.string().default("Buxton Blinds"),
   INTERNAL_NOTIFICATION_EMAIL: z.string().optional(),
   RESEND_API_KEY: z.string().optional(),
+  BREVO_API_KEY: z.string().optional(),
   SMTP_HOST: z.string().optional(),
   SMTP_PORT: z.coerce.number().default(587),
   SMTP_SECURE: boolFromString.default("false"),
@@ -119,6 +120,9 @@ export function validateRuntimeConfig(): string[] {
     if (!config.EMAIL_FROM_ADDRESS) errors.push("EMAIL_FROM_ADDRESS is required when real email is enabled.");
     if (config.EMAIL_PROVIDER === "resend" && !config.RESEND_API_KEY) {
       errors.push("RESEND_API_KEY is required when EMAIL_PROVIDER=resend.");
+    }
+    if (config.EMAIL_PROVIDER === "brevo" && !config.BREVO_API_KEY) {
+      errors.push("BREVO_API_KEY is required when EMAIL_PROVIDER=brevo.");
     }
     if (config.EMAIL_PROVIDER === "smtp") {
       if (!config.SMTP_HOST) errors.push("SMTP_HOST is required when EMAIL_PROVIDER=smtp.");

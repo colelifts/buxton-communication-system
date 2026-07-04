@@ -35,6 +35,18 @@ EMAIL_FROM_NAME=Buxton Blinds
 RESEND_API_KEY=...
 ```
 
+### Brevo
+
+Best free daily cap among the providers researched: commonly listed as 300 emails/day on the free plan. Requires a Brevo account, verified sender/domain, and API key.
+
+```env
+EMAIL_ENABLED=true
+EMAIL_PROVIDER=brevo
+EMAIL_FROM_ADDRESS=hello@yourdomain.com
+EMAIL_FROM_NAME=Buxton Blinds
+BREVO_API_KEY=...
+```
+
 Send one controlled test:
 
 ```bash
@@ -72,4 +84,4 @@ SMTP_PASS=...
 
 ## Cost Notes
 
-Cloudflare Email Routing is free for inbound forwarding. Cloudflare Email Sending to arbitrary customers requires Workers Paid. Resend has a free tier that is usually enough for early transactional email testing, but you still need a verified sending domain.
+Cloudflare Email Routing is free for inbound forwarding. Cloudflare Email Sending to arbitrary customers requires Workers Paid. Resend has a free tier that is usually enough for early transactional email testing, but you still need a verified sending domain. Brevo usually offers more free daily sends, but still requires an account/API key and sender verification.
