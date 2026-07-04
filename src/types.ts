@@ -31,6 +31,15 @@ export interface BoardCustomer {
   afterInstallThankYouAt?: string;
   reviewRequestSentAt?: string;
   smsLog?: string;
+  lastOutboundEmailAt?: string;
+  lastOutboundEmailTemplate?: string;
+  newLeadEmailSentAt?: string;
+  quoteEmailFollowupStep?: number;
+  inProgressLastEmailUpdateAt?: string;
+  appointmentEmailReminder24hAt?: string;
+  installEmailThankYouAt?: string;
+  reviewEmailRequestSentAt?: string;
+  emailLog?: string;
   fields: Record<string, unknown>;
 }
 
@@ -41,7 +50,22 @@ export interface OutboundMessage {
   customerId?: string;
 }
 
+export interface OutboundEmail {
+  to: string;
+  subject: string;
+  text: string;
+  html?: string;
+  templateKey: string;
+  customerId?: string;
+}
+
 export interface SmsSendResult {
+  provider: string;
+  messageId: string;
+  testMode: boolean;
+}
+
+export interface EmailSendResult {
   provider: string;
   messageId: string;
   testMode: boolean;
@@ -61,9 +85,15 @@ export interface SmsProvider {
   send(message: OutboundMessage): Promise<SmsSendResult>;
 }
 
+export interface EmailProvider {
+  name: string;
+  send(message: OutboundEmail): Promise<EmailSendResult>;
+}
+
 export interface BoardClient {
   listCustomers(): Promise<BoardCustomer[]>;
   findCustomerByPhone(phone: string): Promise<BoardCustomer | undefined>;
   updateCustomer(id: string, fields: Partial<BoardCustomer>): Promise<void>;
   appendSmsLog(id: string, line: string): Promise<void>;
+  appendEmailLog?(id: string, line: string): Promise<void>;
 }

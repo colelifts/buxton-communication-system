@@ -31,7 +31,20 @@ const requiredColumns: RequiredColumn[] = [
   { envKey: "MONDAY_COL_INSTALL_COMPLETED_AT", title: "Install Completed At", type: "date" },
   { envKey: "MONDAY_COL_AFTER_INSTALL_THANK_YOU_AT", title: "After Install Thank You At", type: "date" },
   { envKey: "MONDAY_COL_REVIEW_REQUEST_SENT_AT", title: "Review Request Sent At", type: "date" },
-  { envKey: "MONDAY_COL_SMS_LOG", title: "SMS Log", type: "long_text" }
+  { envKey: "MONDAY_COL_SMS_LOG", title: "SMS Log", type: "long_text" },
+  { envKey: "MONDAY_COL_LAST_OUTBOUND_EMAIL_AT", title: "Last Outbound Email At", type: "date" },
+  { envKey: "MONDAY_COL_LAST_OUTBOUND_EMAIL_TEMPLATE", title: "Last Outbound Email Template", type: "text" },
+  { envKey: "MONDAY_COL_NEW_LEAD_EMAIL_SENT_AT", title: "New Lead Email Sent At", type: "date" },
+  { envKey: "MONDAY_COL_QUOTE_EMAIL_FOLLOWUP_STEP", title: "Quote Email Follow-up Step", type: "numbers" },
+  { envKey: "MONDAY_COL_IN_PROGRESS_LAST_EMAIL_UPDATE_AT", title: "In Progress Last Email Update At", type: "date" },
+  {
+    envKey: "MONDAY_COL_APPOINTMENT_EMAIL_REMINDER_24H_AT",
+    title: "Appointment Email Reminder 24h At",
+    type: "date"
+  },
+  { envKey: "MONDAY_COL_INSTALL_EMAIL_THANK_YOU_AT", title: "Install Email Thank You At", type: "date" },
+  { envKey: "MONDAY_COL_REVIEW_EMAIL_REQUEST_SENT_AT", title: "Review Email Request Sent At", type: "date" },
+  { envKey: "MONDAY_COL_EMAIL_LOG", title: "Email Log", type: "long_text" }
 ];
 
 const existingMappings: RequiredColumn[] = [

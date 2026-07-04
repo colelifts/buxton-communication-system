@@ -29,7 +29,18 @@ const envSchema = z.object({
   FREEDOMVOICE_API_KEY: z.string().optional(),
   FREEDOMVOICE_API_BASE_URL: z.string().optional(),
   GOOGLE_REVIEW_URL: z.string().default("https://g.page/r/your-review-link"),
-  BUXTON_OFFICE_PHONE: z.string().optional()
+  BUXTON_OFFICE_PHONE: z.string().optional(),
+  EMAIL_ENABLED: boolFromString.default("false"),
+  EMAIL_PROVIDER: z.enum(["mock", "resend", "smtp"]).default("mock"),
+  EMAIL_FROM_ADDRESS: z.string().optional(),
+  EMAIL_FROM_NAME: z.string().default("Buxton Blinds"),
+  INTERNAL_NOTIFICATION_EMAIL: z.string().optional(),
+  RESEND_API_KEY: z.string().optional(),
+  SMTP_HOST: z.string().optional(),
+  SMTP_PORT: z.coerce.number().default(587),
+  SMTP_SECURE: boolFromString.default("false"),
+  SMTP_USER: z.string().optional(),
+  SMTP_PASS: z.string().optional()
 });
 
 const env = envSchema.parse(process.env);
@@ -57,7 +68,20 @@ export const config = {
     installCompletedAt: process.env.MONDAY_COL_INSTALL_COMPLETED_AT ?? "install_completed_at",
     afterInstallThankYouAt: process.env.MONDAY_COL_AFTER_INSTALL_THANK_YOU_AT ?? "after_install_thank_you_at",
     reviewRequestSentAt: process.env.MONDAY_COL_REVIEW_REQUEST_SENT_AT ?? "review_request_sent_at",
-    smsLog: process.env.MONDAY_COL_SMS_LOG ?? "sms_log"
+    smsLog: process.env.MONDAY_COL_SMS_LOG ?? "sms_log",
+    lastOutboundEmailAt: process.env.MONDAY_COL_LAST_OUTBOUND_EMAIL_AT ?? "last_outbound_email_at",
+    lastOutboundEmailTemplate:
+      process.env.MONDAY_COL_LAST_OUTBOUND_EMAIL_TEMPLATE ?? "last_outbound_email_template",
+    newLeadEmailSentAt: process.env.MONDAY_COL_NEW_LEAD_EMAIL_SENT_AT ?? "new_lead_email_sent_at",
+    quoteEmailFollowupStep: process.env.MONDAY_COL_QUOTE_EMAIL_FOLLOWUP_STEP ?? "quote_email_followup_step",
+    inProgressLastEmailUpdateAt:
+      process.env.MONDAY_COL_IN_PROGRESS_LAST_EMAIL_UPDATE_AT ?? "in_progress_last_email_update_at",
+    appointmentEmailReminder24hAt:
+      process.env.MONDAY_COL_APPOINTMENT_EMAIL_REMINDER_24H_AT ?? "appointment_email_reminder_24h_at",
+    installEmailThankYouAt: process.env.MONDAY_COL_INSTALL_EMAIL_THANK_YOU_AT ?? "install_email_thank_you_at",
+    reviewEmailRequestSentAt:
+      process.env.MONDAY_COL_REVIEW_EMAIL_REQUEST_SENT_AT ?? "review_email_request_sent_at",
+    emailLog: process.env.MONDAY_COL_EMAIL_LOG ?? "email_log"
   }
 };
 
@@ -89,6 +113,18 @@ export function validateRuntimeConfig(): string[] {
 
   if (!config.TEST_MODE && config.SMS_PROVIDER === "freedomvoice") {
     errors.push("FreedomVoice provider is not production-ready yet. Use Twilio until its API/webhooks are confirmed.");
+  }
+
+  if (config.EMAIL_ENABLED && config.EMAIL_PROVIDER !== "mock") {
+    if (!config.EMAIL_FROM_ADDRESS) errors.push("EMAIL_FROM_ADDRESS is required when real email is enabled.");
+    if (config.EMAIL_PROVIDER === "resend" && !config.RESEND_API_KEY) {
+      errors.push("RESEND_API_KEY is required when EMAIL_PROVIDER=resend.");
+    }
+    if (config.EMAIL_PROVIDER === "smtp") {
+      if (!config.SMTP_HOST) errors.push("SMTP_HOST is required when EMAIL_PROVIDER=smtp.");
+      if (!config.SMTP_USER) errors.push("SMTP_USER is required when EMAIL_PROVIDER=smtp.");
+      if (!config.SMTP_PASS) errors.push("SMTP_PASS is required when EMAIL_PROVIDER=smtp.");
+    }
   }
 
   return errors;

@@ -14,6 +14,7 @@
     "config:check": "tsx src/cli/check-config.ts",
     "monday:check": "tsx src/cli/check-monday.ts",
     "sms:test": "tsx src/cli/send-test-sms.ts",
+    "email:test": "tsx src/cli/send-test-email.ts",
     "setup:local": "tsx src/cli/setup-local.ts",
     "monday:ensure": "tsx src/cli/ensure-monday-board.ts",
     "scheduler:remote": "tsx src/cli/run-remote-scheduler.ts",
@@ -23,6 +24,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "helmet": "^8.2.0",
+    "nodemailer": "^9.0.3",
     "twilio": "^5.4.3",
     "zod": "^3.24.1"
   },

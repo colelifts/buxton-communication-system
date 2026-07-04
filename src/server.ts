@@ -4,6 +4,7 @@ import helmet from "helmet";
 import { config, validateRuntimeConfig } from "./config.js";
 import { log } from "./logger.js";
 import { runScheduler } from "./automation/scheduler.js";
+import { createEmailProvider } from "./messaging/email-provider.js";
 import { createSmsProvider } from "./messaging/sms-provider.js";
 import { createBoardClient } from "./monday/board-client.js";
 import { handleIncomingSms } from "./webhooks/incoming-sms.js";
@@ -15,6 +16,7 @@ export function createApp() {
   const app = express();
   const board = createBoardClient();
   const sms = createSmsProvider();
+  const email = createEmailProvider();
   let schedulerRunning = false;
 
   app.use(helmet());
@@ -32,7 +34,9 @@ export function createApp() {
       ok: true,
       testMode: config.TEST_MODE,
       mockBoardMode: config.MOCK_BOARD_MODE,
-      smsProvider: sms.name
+      smsProvider: sms.name,
+      emailEnabled: config.EMAIL_ENABLED,
+      emailProvider: email.name
     });
   });
 
@@ -43,7 +47,9 @@ export function createApp() {
       configErrors,
       testMode: config.TEST_MODE,
       mockBoardMode: config.MOCK_BOARD_MODE,
-      smsProvider: sms.name
+      smsProvider: sms.name,
+      emailEnabled: config.EMAIL_ENABLED,
+      emailProvider: email.name
     });
   });
 
@@ -59,7 +65,7 @@ export function createApp() {
 
     schedulerRunning = true;
     try {
-      const summary = await runScheduler(board, sms);
+      const summary = await runScheduler(board, sms, new Date(), email);
       res.json(summary);
     } catch (error) {
       next(error);

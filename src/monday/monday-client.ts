@@ -107,6 +107,12 @@ export class MondayClient implements BoardClient {
     await this.updateCustomer(id, { smsLog: this.truncateLog(`${existing}${line}`) });
   }
 
+  async appendEmailLog(id: string, line: string): Promise<void> {
+    const customer = (await this.listCustomers()).find((item) => item.id === id);
+    const existing = customer?.emailLog ? `${customer.emailLog}\n` : "";
+    await this.updateCustomer(id, { emailLog: this.truncateLog(`${existing}${line}`) });
+  }
+
   private async request<T>(query: string, variables: Record<string, unknown>): Promise<T> {
     let lastError: unknown;
 
@@ -188,6 +194,15 @@ export class MondayClient implements BoardClient {
       afterInstallThankYouAt: text(c.afterInstallThankYouAt),
       reviewRequestSentAt: text(c.reviewRequestSentAt),
       smsLog: text(c.smsLog),
+      lastOutboundEmailAt: text(c.lastOutboundEmailAt),
+      lastOutboundEmailTemplate: text(c.lastOutboundEmailTemplate),
+      newLeadEmailSentAt: text(c.newLeadEmailSentAt),
+      quoteEmailFollowupStep: numberValue(c.quoteEmailFollowupStep),
+      inProgressLastEmailUpdateAt: text(c.inProgressLastEmailUpdateAt),
+      appointmentEmailReminder24hAt: text(c.appointmentEmailReminder24hAt),
+      installEmailThankYouAt: text(c.installEmailThankYouAt),
+      reviewEmailRequestSentAt: text(c.reviewEmailRequestSentAt),
+      emailLog: text(c.emailLog),
       fields: Object.fromEntries(item.column_values.map((column) => [column.id, column.text ?? column.value]))
     };
   }
@@ -228,6 +243,15 @@ export class MondayClient implements BoardClient {
     setDate("afterInstallThankYouAt", c.afterInstallThankYouAt);
     setDate("reviewRequestSentAt", c.reviewRequestSentAt);
     setText("smsLog", c.smsLog);
+    setDate("lastOutboundEmailAt", c.lastOutboundEmailAt);
+    setText("lastOutboundEmailTemplate", c.lastOutboundEmailTemplate);
+    setDate("newLeadEmailSentAt", c.newLeadEmailSentAt);
+    setText("quoteEmailFollowupStep", c.quoteEmailFollowupStep);
+    setDate("inProgressLastEmailUpdateAt", c.inProgressLastEmailUpdateAt);
+    setDate("appointmentEmailReminder24hAt", c.appointmentEmailReminder24hAt);
+    setDate("installEmailThankYouAt", c.installEmailThankYouAt);
+    setDate("reviewEmailRequestSentAt", c.reviewEmailRequestSentAt);
+    setText("emailLog", c.emailLog);
     return values;
   }
 

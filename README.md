@@ -22,6 +22,7 @@ Low-cost automated customer communication system for Buxton Blinds. Monday.com i
 
 See `docs/local-testing.md` for local scheduler and webhook testing.
 See `docs/production-runbook.md` and `docs/cutover-checklist.md` for production rollout.
+See `docs/email-setup.md` for email provider setup.
 See `env/` for phase-specific environment examples.
 
 ## Quick Start

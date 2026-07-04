@@ -52,6 +52,21 @@ export class MockMondayClient implements BoardClient {
     log("info", "mock_monday_append_sms_log", { itemId: id, line });
   }
 
+  async appendEmailLog(id: string, line: string): Promise<void> {
+    const customers = await this.listCustomers();
+    const index = customers.findIndex((customer) => customer.id === id);
+    if (index === -1) throw new Error(`Mock Monday item not found: ${id}`);
+
+    const existing = customers[index].emailLog ? `${customers[index].emailLog}\n` : "";
+    customers[index] = {
+      ...customers[index],
+      emailLog: truncateLog(`${existing}${line}`)
+    };
+
+    await this.writeCustomers(customers);
+    log("info", "mock_monday_append_email_log", { itemId: id, line });
+  }
+
   private async ensureDataFile(): Promise<string> {
     const absolutePath = path.resolve(process.cwd(), this.dataPath);
     try {
